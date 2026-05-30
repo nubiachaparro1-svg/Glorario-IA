@@ -1,570 +1,1885 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyecto de Agentes e IA - Nubia Chaparro</title>
+    <title>Glosario Interactivo - Nubia Chaparro</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; color: #333; margin: 0; padding: 20px; line-height: 1.6; }
-        .container { max-width: 1200px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.05); }
-        header { border-bottom: 3px solid #24292e; padding-bottom: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
-        .title-section h1 { color: #24292e; margin: 0 0 10px 0; font-size: 2.2em; }
-        .title-section p { margin: 0; color: #666; font-size: 1.1em; }
-        .contact-info { background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #24292e; font-size: 0.95em; min-width: 320px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-        .contact-info ul { list-style: none; padding: 0; margin: 0; }
-        .contact-info li { margin-bottom: 8px; }
-        .contact-info a { color: #0366d6; text-decoration: none; font-weight: 600; }
-        .contact-info a:hover { text-decoration: underline; }
-        .table-responsive { overflow-x: auto; margin-top: 20px; border-radius: 8px; border: 1px solid #eee; }
-        table { width: 100%; border-collapse: collapse; font-size: 0.95em; white-space: nowrap; }
-        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
-        th { background-color: #24292e; color: white; position: sticky; top: 0; font-weight: 600; text-transform: uppercase; font-size: 0.85em; letter-spacing: 0.5px; }
-        tr:hover { background-color: #f6f8fa; transition: background-color 0.2s ease; }
-        tr:nth-child(even) { background-color: #fafafa; }
-        footer { margin-top: 40px; text-align: center; font-size: 0.85em; color: #888; border-top: 1px solid #eee; padding-top: 20px; }
+        :root {
+            --primary-color: #0f172a;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-main: #334155;
+            --text-muted: #64748b;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-main); 
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header { 
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1e293b 100%);
+            color: #ffffff; 
+            padding: 4rem 1rem 6rem; 
+            text-align: center; 
+            position: relative;
+        }
+
+        header h1 { 
+            font-size: 2.8rem; 
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        .contact-info { 
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .contact-info a { 
+            color: #ffffff; 
+            text-decoration: none; 
+            background: rgba(255,255,255,0.1);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .contact-info a:hover { 
+            background: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Search Section */
+        .search-container {
+            max-width: 700px;
+            margin: -35px auto 2rem;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-box {
+            display: flex;
+            background: #fff;
+            border-radius: 50px;
+            padding: 5px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            padding: 15px 25px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            outline: none;
+            color: var(--primary-color);
+        }
+
+        .search-box input::placeholder {
+            color: #94a3b8;
+        }
+
+        .search-icon {
+            background: var(--accent-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin: 2px;
+        }
+
+        /* Grid Layout for Cards */
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto 4rem; 
+            padding: 0 20px; 
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 25px;
+        }
+
+        /* Card Styles */
+        .card { 
+            background: var(--card-bg); 
+            border-radius: 16px; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            padding: 25px; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: #cbd5e1;
+        }
+
+        .card-title { 
+            color: var(--primary-color); 
+            font-size: 1.3rem; 
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .card-title i {
+            color: var(--accent-color);
+            margin-top: 5px;
+            font-size: 1.1rem;
+        }
+
+        /* Definition Items inside Cards */
+        .definitions-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            flex-grow: 1;
+        }
+
+        .definition { 
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 15px;
+            position: relative;
+            transition: background 0.2s;
+        }
+        
+        .definition:hover {
+            background: #f1f5f9;
+        }
+
+        .author { 
+            font-weight: 600; 
+            color: var(--accent-color); 
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .text { 
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        /* Empty State */
+        #noResults {
+            display: none;
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            background: white;
+            border-radius: 16px;
+            border: 1px dashed #cbd5e1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.2rem; }
+            .container { grid-template-columns: 1fr; }
+            .contact-info { flex-direction: column; align-items: center; }
+            .contact-info a { width: 100%; justify-content: center; max-width: 300px; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="title-section">
-                <h1>Base de Conocimiento: Agentes e Inteligencia Artificial</h1>
-                <p>Despliegue para GitHub Pages</p>
-            </div>
-            <div class="contact-info">
-                <ul>
-                    <li><strong>Desarrollado por:</strong> Nubia Esperanza Chaparro Cely</li>
-                    <li><strong>Perfil:</strong> Strategic Project Manager | Transformación Digital</li>
-                    <li><strong>Ubicación:</strong> Bogotá / Duitama, Colombia</li>
-                    <li><strong>Contacto:</strong> <a href="mailto:tu-correo@ejemplo.com">tu-correo@ejemplo.com</a></li>
-                    <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/tu-perfil" target="_blank">Ver perfil</a></li>
-                </ul>
-            </div>
-        </header>
-        
-        <div class="table-responsive">
-            <table class="dataframe data-table">
-  <thead>
-    <tr style="text-align: left;">
-      <th>Nombre</th>
-      <th>Que es un agente</th>
-      <th>Ques un multiagente</th>
-      <th>Para que sirve un multiagente</th>
-      <th>Que es droid</th>
-      <th>Que es un fake bot,</th>
-      <th>Para que sirve crear un repositorio</th>
-      <th>Que es github</th>
-      <th>Como funciona</th>
-      <th>Cual es la difrencia entre claude y droid</th>
-      <th>Que es open cloud</th>
-      <th>Que es una secion de uso en ollama</th>
-      <th>Que es un sistema predictivo de agentes</th>
-      <th>Apra que sirve hacer capacitaciones con un agente</th>
-      <th>Que es un skills</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>ANTONIO</td>
-      <td>Alguien o algo que toma acción para cumplir una meta.</td>
-      <td>Un equipo de varios agentes trabajando juntos por una meta.</td>
-      <td>Sirve para resolver problemas muy complejos uniendo varias inteligencias artificiales.</td>
-      <td>Un robot físico e inteligente que actúa como un agente.</td>
-      <td>Un agente falso que engaña simulando ser una persona real.</td>
-      <td>Guarda y organiza los archivos del equipo, registrando cada cambio.</td>
-      <td>Plataforma web para guardar, organizar y crear código en equipo.</td>
-      <td>Subes tu código, registras cada cambio y trabajas en equipo.</td>
-      <td>Claude es software y el droid es un robot físico.</td>
-      <td>Es la versión de código libre del programa llamado Claude.</td>
-      <td>Es tu conversación activa donde el modelo recuerda la charla.</td>
-      <td>agentes actúan sin anticipar resultados; predictivo usa datos y modelos.</td>
-      <td>agentes actúan sin anticipar resultados; predictivo usa datos y modelos.</td>
-      <td>habilidades especializadas para ejecutar tareas concretas.</td>
-    </tr>
-    <tr>
-      <td>Edinson</td>
-      <td>un interpretador de ordenes para generar acciones generando soluciones</td>
-      <td>varios interpretadores</td>
-      <td>resuelven preguntas, conjeturas desarrollando sobre estas soluciones</td>
-      <td>un conjunto de algoritmos que generan una entidad desconocidad que se apoya de varios agentes para desarrollar y solucionar un proyecto</td>
-      <td>un agente falso que tiene la capacidad de adoptar un tema y hablar fluidamente</td>
-      <td>Plataforma para alojar código y colaborar en proyectos de software.</td>
-      <td>Red social y de almacenamiento para desarrollar y compartir código.</td>
-      <td>Almacena archivos, registra cada cambio de código y facilita colaboración.</td>
-      <td>Claude es una inteligencia artificial; Droid es un sistema operativo.</td>
-      <td>Plataforma de código abierto para gestionar, almacenar y compartir archivos.</td>
-      <td>Es el espacio interactivo donde un modelo procesa tus peticiones.</td>
-      <td>Un sistema predictivo de agentes anticipa decisiones y comportamientos mediante datos.</td>
-      <td>Capacitar con un agente mejora habilidades, automatiza aprendizaje y acelera resultados.</td>
-      <td>---</td>
-    </tr>
-    <tr>
-      <td>Nubia</td>
-      <td>Entidad que percibe su entorno y actúa para cumplir metas</td>
-      <td>Sistema de múltiples agentes autónomos interactuando para lograr objetivos comunes</td>
-      <td>Sirve para resolver problemas complejos dividiendo tareas entre agentes colaborativos</td>
-      <td>Robot o máquina inteligente diseñada para operar de forma autónoma</td>
-      <td>Programa informático diseñado para simular comportamiento humano con fines maliciosos</td>
-      <td>Almacenar, organizar, compartir y controlar versiones de código en equipo</td>
-      <td>Servicio web para control de versiones y desarrollo de software</td>
-      <td>Usa Git para alojar código, registrar cambios y permitir colaboración</td>
-      <td>Claude es inteligencia artificial; droid es un robot físico autónomo</td>
-      <td>Plataforma de computación en la nube basada en código abierto</td>
-      <td>Interacción continua donde el modelo local recuerda el contexto previo</td>
-      <td>Sistema de agentes que utiliza datos para anticipar eventos futuros</td>
-      <td>Permite simular situaciones reales para practicar habilidades sin asumir riesgos</td>
-      <td>Habilidades o destrezas adquiridas para realizar tareas de manera efectiva</td>
-    </tr>
-    <tr>
-      <td>Juliana</td>
-      <td>Entidad que percibe, decide y actúa para lograr objetivos específicos.</td>
-      <td>Conjunto de agentes que colaboran, coordinan y resuelven tareas conjuntamente.</td>
-      <td>Sirve para dividir, coordinar y resolver tareas complejas eficientemente.</td>
-      <td>Robot automatizado diseñado para asistir tareas físicas o digitales específicas.</td>
-      <td>Bot que simula comportamiento humano o automatizado con identidad falsa.</td>
-      <td>Sirve para almacenar, organizar, versionar y compartir información digital.</td>
-      <td>Plataforma para alojar, gestionar y colaborar en proyectos de software.</td>
-      <td>Almacena código, registra cambios y facilita colaboración entre desarrolladores.</td>
-      <td>Claude es inteligencia artificial conversacional; droid ejecuta tareas automatizadas específicas.</td>
-      <td>Plataforma en la nube para desarrollar, ejecutar y escalar aplicaciones.</td>
-      <td>Interacción temporal donde Ollama procesa solicitudes y mantiene contexto conversacional.</td>
-      <td>Sistema que anticipa acciones mediante análisis y coordinación de agentes.</td>
-      <td>Sirve para enseñar, practicar y evaluar conocimientos de forma personalizada.</td>
-      <td>Capacidades específicas que permiten realizar tareas y resolver problemas.</td>
-    </tr>
-    <tr>
-      <td>JohnR</td>
-      <td>Entidad que automatiza tareas por ti</td>
-      <td>Grupo de agentes  gestionando proyectos</td>
-      <td>Gestionar proyectos en donde se requiere mas de un ounto de vista</td>
-      <td>IA integradora</td>
-      <td>Bot falso enviar información errada</td>
-      <td>para almacenar modelos e información referente a un proyecto</td>
-      <td>Plataforma  que funciona como repositorio</td>
-      <td>almacena información  facilitando la interracción de agentes</td>
-      <td>Claude iA = Droid Herramienta almacenamiento</td>
-      <td>otra plataforma de repositorio</td>
-      <td>medición de consumo actual de uso de ollama</td>
-      <td>---</td>
-      <td>---</td>
-      <td>---</td>
-    </tr>
-    <tr>
-      <td>nicolas Tellez</td>
-      <td>Un agente ejecuta tareas autónomas percibiendo entorno, decidiendo acciones independientemente.</td>
-      <td>Un multiagente integra múltiples agentes colaborando coordinadamente resolviendo problemas complejos</td>
-      <td>multiagente optimiza procesos distribuidos mediante cooperación, comunicación y especialización autónoma</td>
-      <td>Un sistema operativo móvil desarrollado por Google para dispositivos inteligentes</td>
-      <td>Un fake bot simula personas reales automáticamente para engañar usuarios.</td>
-      <td>Crear un repositorio sirve para organizar, almacenar y compartir proyectos.</td>
-      <td>GitHub es plataforma colaborativa para almacenar, gestionar y compartir código.</td>
-      <td>Funciona almacenando versiones del código, permitiendo colaboración, cambios y seguimiento.</td>
-      <td>Claude utiliza inteligencia artificial conversacional; Droid funciona como sistema operativo.</td>
-      <td>Open Cloud ofrece servicios remotos mediante almacenamiento, procesamiento y conectividad.</td>
-      <td>Una sesión de uso en Ollama ejecuta modelos localmente consultados.</td>
-      <td>Un sistema predictivo de agentes anticipa decisiones mediante datos patrones.</td>
-      <td>Hacer capacitaciones con agentes mejora habilidades, automatización y productividad empresarial.</td>
-      <td>Un skills representa habilidades específicas programadas para ejecutar tareas determinadas.</td>
-    </tr>
-    <tr>
-      <td>Danghelly Rodriguez</td>
-      <td>Sistema autónomo que percibe, decide y actúa para cumplir objetivos.</td>
-      <td>Conjunto de agentes coordinados que colaboran para resolver tareas complejas</td>
-      <td>multiagente optimiza procesos distribuidos mediante cooperación, comunicación y especialización autónoma</td>
-      <td>Robot o asistente automatizado diseñado para ejecutar tareas específicas programadas.</td>
-      <td>Bot falso que simula interacción humana para engañar o manipular</td>
-      <td>Sirve para almacenar, organizar y controlar versiones de archivos digitales</td>
-      <td>Plataforma donde equipos guardan código, colaboran y gestionan proyectos digitales.</td>
-      <td>Funciona registrando cambios, sincronizando versiones y permitiendo colaboración controlada remota.</td>
-      <td>Claude es inteligencia conversacional; Droid es hardware o sistema operativo.</td>
-      <td>Infraestructura de nube basada en estándares abiertos para evitar bloqueos.</td>
-      <td>Interacción donde ejecutas modelos locales para generar respuestas o análisis.</td>
-      <td>Agentes inteligentes anticipan escenarios y recomiendan acciones basadas en datos.</td>
-      <td>Sirve para entrenar personas, resolver dudas y estandarizar aprendizaje rápidamente</td>
-      <td>Capacidades específicas que permiten a un agente ejecutar tareas concretas</td>
-    </tr>
-    <tr>
-      <td>Juan Robayo</td>
-      <td>Entidad que percibe su entorno y actúa para cumplir objetivos</td>
-      <td>Sistema de múltiples agentes artificiales que interactúan para cumplir objetivos.</td>
-      <td>Sirve para resolver problemas complejos distribuyendo tareas entre varios agentes.</td>
-      <td>Robot o autómata que simula apariencia y comportamiento de humanos.</td>
-      <td>Bot diseñado para engañar simulando ser un usuario humano real.</td>
-      <td>Guarda, gestiona, protege y comparte versiones del código de proyectos.</td>
-      <td>Plataforma online para alojar, gestionar y colaborar en código fuente.</td>
-      <td>Guarda código, controla sus versiones y colabora con otros desarrolladores.</td>
-      <td>Claude es una inteligencia artificial; Droid es un robot físico.</td>
-      <td>Computación en la nube basada en tecnologías de código abierto.</td>
-      <td>Período activo donde Ollama recuerda el contexto de tu chat.</td>
-      <td>Sistemas con IA que anticipan eventos para tomar decisiones autónomas.</td>
-      <td>Enseña al agente a resolver tareas específicas con mayor precisión.</td>
-      <td>Habilidad entrenada de una inteligencia artificial para ejecutar tareas específicas.</td>
-    </tr>
-    <tr>
-      <td>Katherine Alfonso</td>
-      <td>Entidad autónoma que procesa datos, toma decisiones y ejecuta acciones.</td>
-      <td>Conjunto de agentes autónomos colaborando para resolver una tarea compleja.</td>
-      <td>Divide tareas complejas en especialistas autónomos que colaboran entre sí.</td>
-      <td>Asistente local autónomo que automatiza tareas y código mediante IA.</td>
-      <td>Asistente local autónomo que automatiza tareas y código mediante IA.</td>
-      <td>Almacena, organiza y rastrea el historial de cambios del código.</td>
-      <td>Plataforma en la nube para alojar y compartir repositorios de código.</td>
-      <td>Aloja código en la nube facilitando control de cambios colaborativo.</td>
-      <td>Claude es el cerebro que piensa; Droid opera tu terminal.</td>
-      <td>Nube basada en código abierto que permite portabilidad e interoperabilidad.</td>
-      <td>Tiempo que un modelo permanece cargado en memoria para responder.</td>
-      <td>Agentes coordinados que analizan datos históricos para anticipar eventos futuros.</td>
-      <td>Entrena personal simulando escenarios reales de forma personalizada y escalable.</td>
-      <td>Capacidad o herramienta que permite a un agente ejecutar acciones.</td>
-    </tr>
-    <tr>
-      <td>Kelly</td>
-      <td>Sistema de IA que percibe, decide y actúa autónomamente.</td>
-      <td>Red de agentes de IA que colaboran entre sí.</td>
-      <td>Resolver tareas complejas dividiendo trabajo entre agentes especializados.</td>
-      <td>Agente de codificación empresarial que gestiona flujos de desarrollo completos</td>
-      <td>Bot que imita humanos para generar actividad falsa artificialmente.</td>
-      <td>Almacenar, versionar y compartir código de forma organizada y colaborativa.</td>
-      <td>Plataforma en la nube para alojar y gestionar repositorios colaborativamente.</td>
-      <td>lmacena código, rastrea cambios y permite colaboración mediante ramas.</td>
-      <td>Claude es IA conversacional; Droid es agente especializado en código.</td>
-      <td>Plataforma de servicios cloud que ofrece cómputo, almacenamiento y networking escalable.</td>
-      <td>eríodo activo donde el modelo procesa consultas localmente sin internet.</td>
-      <td>Agentes que analizan datos para predecir y automatizar decisiones futuras.</td>
-      <td>Entrena equipos con respuestas inteligentes, personalizadas y disponibles las 24 horas.</td>
-      <td>Habilidad específica que permite a un agente ejecutar tareas concretas.</td>
-    </tr>
-    <tr>
-      <td>John Ocampo</td>
-      <td>IA automatico con un objetivo particular ejecutando tareas de entorno</td>
-      <td>Sistema de multiples agentes con diferentes objetivos y ejecuciones diferenters</td>
-      <td>para delegar diferentes tareas en ejecuciones concretas y displinas varias</td>
-      <td>Asistente autonomo que permite  ejecucion de tareas complejas con IA</td>
-      <td>Es un bot automata que se hace pasar por humano</td>
-      <td>Es la biblioteca en la nube que permite almacenar cambios</td>
-      <td>repositorio muy utilizado  para contener cambiso de software en  nube</td>
-      <td>Almacena codigo de software y permite trabajr  integrar diferentes ramas</td>
-      <td>Claude es generativa y conversacional droid es generadora de agentes</td>
-      <td>Es una plataforma que permita la generacion de codigo abierto</td>
-      <td>es una sesion abierta que permite almacenar la conversacion puntual</td>
-      <td>Es un agente que predice las acciones relacionadas en conversacion</td>
-      <td>reducir el contexto en  sesion  y sea un experto objetivo</td>
-      <td>Es la capacidad de las  instrucciones concretas a la IA</td>
-    </tr>
-    <tr>
-      <td>Jaime</td>
-      <td>Un desarrollo capaz de automatizar datos, procesarlos y tomar decisiones</td>
-      <td>Son desarrollos simultáneos que trabajan juntos para resolver un problema</td>
-      <td>Para procesar una gran cantidad de datos en cadena</td>
-      <td>Un robot autonomo entrenado para hacer tareas</td>
-      <td>Un robot autonomo entrenado para hacer procesos alejados de la realidad</td>
-      <td>Guardar información de manera organizada para ser consultada varios integrantes</td>
-      <td>plataforma para almacenar, gestionar y colaborar en proyectos de software</td>
-      <td>Varias personas pueden desarrollar el mismo proyecto simultáneamente sin sobrescribirse.</td>
-      <td>Claude es un modelo de IA y droid un agente que usa IA</td>
-      <td>Es Nube abierta, basada en estándares abiertos, software open source</td>
-      <td>modelos de inteligencia artificial de forma local, en tu propio computador o servidor</td>
-      <td>---</td>
-      <td>---</td>
-      <td>---</td>
-    </tr>
-    <tr>
-      <td>leonardo Martinez</td>
-      <td>Un agente percibe su entorno, decide y ejecuta acciones autónomamente.</td>
-      <td>Varios agentes autónomos colaboran, se comunican y resuelven problemas junto</td>
-      <td>Sirve para dividir tareas complejas entre agentes especializados que colaboran.</td>
-      <td>agente inteligente diseñado para ejecutar tareas automáticamente y asistir usuarios.</td>
-      <td>Un bot falso que simula ser humano para engañar usuarios.</td>
-      <td>Sirve para almacenar, versionar y colaborar en proyectos de código.</td>
-      <td>Plataforma en la nube para alojar y colaborar en repositorios</td>
-      <td>Usa Git para versionar código; subes, colaboras y fusionas cambios.Dijiste: cual es la difrencia entre Claude y droid</td>
-      <td>Claude es IA conversacional; DROID es framework para orquestar multiagentes.</td>
-      <td>plataforma abierta para almacenar, procesar y gestionar datos</td>
-      <td>Sesión donde ejecutas y conversas con modelos de IA localmente.</td>
-      <td>Sistema donde agentes anticipan eventos futuros para tomar decisiones proactivas.</td>
-      <td>---</td>
-      <td>---</td>
-    </tr>
-    <tr>
-      <td>Claudia Laitón</td>
-      <td>Sistema autónomo diseñado para ejecutar tareas, tomar decisiones, resolver problemas.</td>
-      <td>Conjunto de agentes que colaboran coordinadamente para resolver problemas complejos.</td>
-      <td>Facilita resolver problemas complejos mediante la cooperación entre agentes especializados.</td>
-      <td>Plataforma tecnológica diseñada para facilitar la creación de agentes autónomos</td>
-      <td>Programa automatizado que suplanta personas para engañar o manipular usuarios</td>
-      <td>Almacena, organiza, versiona y facilita la colaboración en proyectos digitales.</td>
-      <td>Plataforma para alojar, gestionar y colaborar en proyectos de código.</td>
-      <td>Git rastrea cambios, permitiendo guardar versiones y colaborar entre desarrolladores</td>
-      <td>Claude es un modelo lingüístico; Droid facilita crear agentes autónomos</td>
-      <td>Infraestructura de nube basada en tecnologías de código abierto accesibles</td>
-      <td>Es el tiempo de ejecución activa donde Ollama procesa instrucciones.</td>
-      <td>Sistema que utiliza datos históricos para anticipar comportamientos de agentes.</td>
-      <td>Optimiza el aprendizaje personalizado, ofreciendo retroalimentación inmediata y continua supervisión.</td>
-      <td>Capacidad técnica o habilidad específica que un agente puede ejecutar.</td>
-    </tr>
-    <tr>
-      <td>Gloria</td>
-      <td>Entidad que actúa de forma autónoma para lograr un objetivo.</td>
-      <td>Conjunto de agentes autónomos que colaboran para lograr un objetivo.</td>
-      <td>Para resolver problemas complejos mediante la colaboración de múltiples agentes.</td>
-      <td>Robot con inteligencia artificial que realiza tareas de forma autónoma.</td>
-      <td>Programa automatizado que simula ser un usuario humano o legítimo.</td>
-      <td>Para almacenar, gestionar versiones de código y colaborar en equipo.</td>
-      <td>GitHub es una plataforma para alojar, gestionar y compartir código.</td>
-      <td>Rastrea versiones de código online facilitando el trabajo en equipo.</td>
-      <td>Claude es un software conversacional y Droid un robot físico.</td>
-      <td>Nube construida con código abierto para garantizar flexibilidad e interoperabilidad.</td>
-      <td>Sección que muestra las métricas de rendimiento y tokens consumidos.</td>
-      <td>Sistema de agentes autónomos que anticipan eventos futuros para decidir.</td>
-      <td>---</td>
-      <td>---</td>
-    </tr>
-    <tr>
-      <td>Natalia</td>
-      <td>Sistema de IA que ejecuta procesos de forma autónoma</td>
-      <td>Conjunto de agentes que colaboran para ejecutar una tarea</td>
-      <td>Divide tareas complejas en agentes especializados</td>
-      <td>Sistema que ejecuta tareas complejas</td>
-      <td>Bot que simula personas o actividades falsas</td>
-      <td>Para almacenar, organizar y versionar archivos</td>
-      <td>Plataforma para almacenar, compartir y gestionar código</td>
-      <td>Guarda versiones, cambios y colaboración en proyectos</td>
-      <td>Claude es modelo de IA conversacional; Droid es un agente/robot</td>
-      <td>Infraestructura en la nube abierta, interoperable y de código libre</td>
-      <td>Interacción activa entre usuario y modelo ejecutado localmente</td>
-      <td>Agentes que anticipan eventos usando datos y patrones</td>
-      <td>Entrenar, practicar y recibir retroalimentación personalizada</td>
-      <td>Habilidad o función específica que puede ejecutar.</td>
-    </tr>
-    <tr>
-      <td>Katterin Botiva</td>
-      <td>Sistema autónomo que percibe, decide y actúa para lograr objetivos.</td>
-      <td>Conjunto de agentes coordinados que colaboran resolviendo tareas complejas eficientemente.</td>
-      <td>---</td>
-      <td>Robot o asistente digital diseñado para ejecutar funciones específicas automáticamente.</td>
-      <td>Bot falso que simula usuarios para engañar o manipular personas.</td>
-      <td>Guardar, organizar, compartir y versionar código o proyectos colaborativos.</td>
-      <td>Plataforma para alojar, gestionar y colaborar en repositorios Git.</td>
-      <td>---</td>
-      <td>Claude es inteligencia artificial; Droid generalmente ejecuta tareas automatizadas.</td>
-      <td>---</td>
-      <td>---</td>
-      <td>---</td>
-      <td>---</td>
-      <td>---</td>
-    </tr>
-    <tr>
-      <td>Samantha</td>
-      <td>Es una Entidad que a medida que resuelve aprende</td>
-      <td>Muchos agentes independientes que apoyan mis actividades</td>
-      <td>Para Apoyar en mis tareas y resolver problems por partes</td>
-      <td>Es un Agente que desarolla protocolos complejos</td>
-      <td>Es un Bot autonomo que simula interactuar con personas</td>
-      <td>Para almacenar información y respaldar data, informes y codigo</td>
-      <td>Es un repositorio que guarda información creada</td>
-      <td>Como una Nube que almacena información,data y codigo</td>
-      <td>Claude es una IA y Droid es un agente autonomo</td>
-      <td>Es un Entorno de programación Construido sobre Codigo Abierto</td>
-      <td>Es el Periodo de tiempo que Permanece una ventana de conversación abierta</td>
-      <td>Son varios agentes que predicen evento que van a pasar</td>
-      <td>Para Capacitar a los agentes en informacion en particular que quiero que se enfoque</td>
-      <td>Capacidades especificas que se requieren para resovler ciertas tareas</td>
-    </tr>
-    <tr>
-      <td>Johana</td>
-      <td>Un software autónomo que realiza tareas y toma decisiones por mí</td>
-      <td>Sistema de múltiples agentes autónomos que colaboran para resolver problemas</td>
-      <td>Para resolver problemas complejos dividiendo tareas entre varios agentes especializados</td>
-      <td>Sistema de agentes que gestiona y soluciona procesos muy complejos</td>
-      <td>Software o cuenta falsa que simula interactuar como humano real</td>
-      <td>Para almacenar, organizar y controlar versiones del historial de un proyecto</td>
-      <td>Plataforma web para almacenar, compartir y controlar versiones de código</td>
-      <td>Guarda cambios del código en historiales mediante ramas y repositorios</td>
-      <td>La cantidad de agentes que se pueden manejar al tiempo</td>
-      <td>Plataforma de nube basada en tecnologías abiertas que evita bloqueos comerciales</td>
-      <td>Tiempo que Ollama mantiene un modelo activo en memoria local</td>
-      <td>Red de agentes autónomos que colaboran para anticipar eventos futuros</td>
-      <td>Para entrenar personal mediante simulaciones realistas, interactivas y escalables</td>
-      <td>Capacidad o herramienta externa que permite al modelo realizar acciones</td>
-    </tr>
-    <tr>
-      <td>Lina Espinosa</td>
-      <td>Es un sistema de inteligencia artificial que no solo responde preguntas, sino que también puede tomar decisiones, planificar acciones y ejecutar tareas para alcanzar un objetivo</td>
-      <td>Es un conjunto de varios agentes de inteligencia artificial que trabajan juntos, colaboran o se reparten tareas para resolver un problema más complejo</td>
-      <td>En lugar de automatizar una tarea aislada, puede automatizar un proceso de principio a fin</td>
-      <td>En tecnología moderna, algunas empresas usan el término “Droid” para referirse a agentes de IA capaces de ejecutar tareas de forma autónoma.</td>
-      <td>Un fake bot (bot falso) es un programa automatizado que simula ser una persona real para interactuar con usuarios o sistemas.</td>
-      <td>1. Guardar el proyecto de forma segura:Permite tener todos los archivos en un único lugar y evitar pérdidas de información.\n\n2. Controlar versiones: Cada vez que realizas un cambio, el repositorio registra: Qué se modificó,Quién lo modificó, Cuándo se modificó.\n\n</td>
-      <td>GitHub es una plataforma en línea que permite almacenar, administrar y colaborar en proyectos de software utilizando Git, una herramienta de control de versiones.</td>
-      <td>Creas un repositorio (una carpeta del proyecto).\nSubes tus archivos.\nCada vez que haces cambios, GitHub los registra.\nPuedes volver a versiones anteriores si algo sale mal.\nVarias personas pueden trabajar en el mismo proyecto sin perder información.</td>
-      <td>Claude es un modelo/asistente de IA. Su función principal es conversar, analizar información, escribir, resumir, programar y ayudar a resolver problemas.\nDroid suele referirse a un agente de IA autónomo o un sistema que utiliza IA para ejecutar tareas específicas. Dependiendo de la plataforma, un droid puede usar modelos como Claude, GPT u otros para tomar decisiones y actuar.</td>
-      <td>Open Cloud (nube abierta) es un modelo de computación en la nube que permite usar servicios, aplicaciones y datos con mayor libertad, evitando depender completamente de un único proveedor.</td>
-      <td>En Ollama, una sesión de uso (session) es el período durante el cual interactúas con un modelo de IA y este mantiene el contexto de la conversación</td>
-      <td>Un sistema predictivo de agentes es una solución que combina:\n\nModelos predictivos (para anticipar lo que probablemente ocurrirá) y\nAgentes de IA (para analizar, decidir y actuar sobre esas predicciones).</td>
-      <td>Hacer capacitaciones con un agente de IA sirve para entrenar personas de manera más personalizada, disponible y escalable que una capacitación tradicional.</td>
-      <td>Una habilidad que tiene una persona</td>
-    </tr>
-    <tr>
-      <td>María</td>
-      <td>Software que percibe su entorno y actúa para lograr objetivos</td>
-      <td>Múltiples agentes colaborando para resolver problemas más complejos juntos</td>
-      <td>Dividir tareas grandes entre varios agentes especializados simultáneamente</td>
-      <td>Framework para construir sistemas multiagente con IA fácilmente</td>
-      <td>Bot que simula ser humano para engañar usuarios</td>
-      <td>Guardar, versionar y colaborar en código de forma organizada</td>
-      <td>Plataforma para alojar repositorios y colaborar en código</td>
-      <td>Subes tus archivos.</td>
-      <td>Claude es IA conversacional; Droid construye sistemas multiagente autónomos</td>
-      <td>Plataforma cloud abierta para desplegar servicios escalables fácilmente</td>
-      <td>Interacción activa con un modelo de IA localmente en ejecución</td>
-      <td>Sistema donde agentes aprenden y anticipan comportamientos futuros automáticamente</td>
-      <td>Entrenar agentes con datos reales para mejorar respuestas futuras</td>
-      <td>Habilidad específica que un agente ejecuta para resolver tareas</td>
-    </tr>
-    <tr>
-      <td>Augusto B</td>
-      <td>entidad que puede percibir su entorno, tomar decisiones y actuar para lograr un objetivo</td>
-      <td>s un conjunto de varios agentes que trabajan de forma coordinada para resolver una tarea o alcanzar un objetivo común.</td>
-      <td>para resolver problemas complejos de forma más eficiente, distribuyendo el trabajo entre varios agentes especializados</td>
-      <td>un asistente virtual, un agente de IA, un robot software, o un sistema autónomo que ejecuta tareas</td>
-      <td>Dependiendo del propósito, puede utilizarse de forma legítima o maliciosa.</td>
-      <td>Lugar centralizado donde se almacena y organiza información, código, documentos o archivos para que puedan ser gestionados y compartidos de manera controlada</td>
-      <td>una plataforma en línea que permite almacenar, gestionar y colaborar en proyectos utilizando Git, un sistema de control de versiones.</td>
-      <td>Cada vez que haces cambios, GitHub los registra.</td>
-      <td>Claude es como un especialista experto al que le haces preguntas y te ayuda a razonar. Un droid es como un operador automatizado que realiza tareas concretas siguiendo instrucciones o reglas.</td>
-      <td>Concepto de tecnología que se refiere a una infraestructura en la nube abierta, interoperable y flexible, donde los usuarios pueden mover aplicaciones y datos entre diferentes proveedores sin quedar atrapados en uno solo</td>
-      <td>sesión de uso es el contexto de interacción que mantiene un modelo mientras conversas con él.</td>
-      <td>una arquitectura donde uno o varios agentes de IA analizan datos históricos y actuales para anticipar eventos, comportamientos o resultados futuros, y en algunos casos actuar en consecuencia</td>
-      <td>para ofrecer aprendizaje más personalizado, interactivo y disponible en cualquier momento.</td>
-      <td>capacidad específica que tiene un sistema, agente o asistente para realizar una tarea determinada</td>
-    </tr>
-    <tr>
-      <td>Joaquin C</td>
-      <td>Entidad autónoma que percibe su entorno y actúa tomando decisiones.</td>
-      <td>Sistema formado por múltiples agentes que interactúan para resolver problemas.</td>
-      <td>Distribuye tareas complejas entre varios agentes para resolver problemas eficientemente.</td>
-      <td>Dispositivo robótico autónomo o sistema operativo móvil basado en Linux.</td>
-      <td>Cuenta automatizada falsa que simula ser un usuario humano</td>
-      <td>Almacenar, organizar y rastrear el historial de un proyecto digital.</td>
-      <td>Plataforma en la nube para alojar y compartir código fuente</td>
-      <td>Puedes volver a versiones anteriores si algo sale mal.</td>
-      <td>Claude es un software de IA; Droid es hardware robótico o sistema operativo móvil.</td>
-      <td>Entorno de nube basado en estándares abiertos que evita bloqueos de proveedores.</td>
-      <td>Período activo donde interactúas con un modelo consumiendo recursos locales.</td>
-      <td>Red de agentes que anticipa tendencias y comportamientos futuros analizando datos.</td>
-      <td>Entrena al personal mediante simulaciones interactivas y personalizadas en tiempo real.</td>
-      <td>Capacidad específica que permite a una IA ejecutar acciones reales</td>
-    </tr>
-    <tr>
-      <td>Paola A</td>
-      <td>Es un programa que ejecuta tareas autonomas con instrucciones</td>
-      <td>varios programas que ejecutan tareas al tiempo</td>
-      <td>optimizar tiempo</td>
-      <td>permite crear multiagentes</td>
-      <td>programa informático diseñado para simular ser una persona real.</td>
-      <td>Almacenar y organizar infomacion</td>
-      <td>plataforma en la nube donde los desarrolladores almacenan su código, gestionan proyectos y colaboran con otro</td>
-      <td>Varias personas pueden trabajar en el mismo proyecto sin perder información.</td>
-      <td>La diferencia radica en que Claude es un "cerebro" o modelo de IA creado para redactar y razonar, mientras que Droid (como herramienta CLI) es una interfaz técnica diseñada específicamente para que los desarrolladores automaticen la escritura o corrección de código informático a través de su terminal</td>
-      <td>Plataforma de colaboración y almacenamiento</td>
-      <td>licencia o cesión de uso.significa que te permiten descargarlo, ejecutarlo e incluso integrarlo en tus proyectos, pero sin transferirte la propiedad intelectual ni los derechos de autor</td>
-      <td>aplicación de inteligencia artificial capaz de anticipar comportamientos, necesidades o riesgos mediante el análisis de datos históricos y en tiempo real</td>
-      <td>Mayor eficacia y Especialización</td>
-      <td>conjunto de instrucciones personalizadas y automatizadas que enseñan a una IA a realizar una tarea específica de manera autónoma</td>
-    </tr>
-    <tr>
-      <td>Harold Arenas</td>
-      <td>Es un programa que funciona de manera autonoma para cumplir tareas especificas</td>
-      <td>Es un sistema compuesto por varios agentes que interactuan entre si</td>
-      <td>Para resolver problemas complejos mediante interacción y colaboración de multiples agentes</td>
-      <td>es un tipo de robot o agente autónomo diseñado para interactuar con su entorno, realizar tareas específicas</td>
-      <td>es un programa automatizado que simula actividad humana o de otro bot con fines engañosos, fraudulentos o maliciosos</td>
-      <td>un repositorio en inteligencia artificial sirve para organizar, versionar, compartir y colaborar en proyectos de IA de manera estructurada y eficiente.</td>
-      <td>GitHub es plataforma web de control versiones y colaboración código fuente.</td>
-      <td>GitHub gestiona repositorios, versiones y colaboraciones de código eficientemente</td>
-      <td>---</td>
-      <td>---</td>
-      <td>---</td>
-      <td>---</td>
-      <td>---</td>
-      <td>---</td>
-    </tr>
-    <tr>
-      <td>Alejandro M</td>
-      <td>Programa autónomo que percibe entorno decide acciones y ejecuta tareas</td>
-      <td>Sistema compuesto por varios agentes que colaboran resolviendo problemas complejos.</td>
-      <td>Permite coordinar agentes especializados para resolver tareas más eficientemente juntas.</td>
-      <td>Robot o software automatizado diseñado para asistir funciones específicas eficientemente</td>
-      <td>Bot simulado que imita comportamientos humanos para pruebas internas controladas</td>
-      <td>Permite almacenar organizar versiones compartir código y documentación fácilmente colaborativamente.</td>
-      <td>Plataforma colaborativa para alojar gestionar versiones y compartir código eficientemente.</td>
-      <td>Utiliza repositorios Git para cambios colaboración seguimiento y despliegues eficientes.</td>
-      <td>Claude genera contenido inteligente; Droid ejecuta tareas automatizadas especializadas eficientemente.</td>
-      <td>Plataforma abierta para gestionar recursos, servicios y datos en nube.</td>
-      <td>Interacción temporal donde modelo procesa consultas y genera respuestas continuamente.</td>
-      <td>Conjunto agentes analizan datos anticipan eventos y recomiendan acciones.</td>
-      <td>Permite entrenar personas mediante simulaciones personalizadas retroalimentación inmediata continua</td>
-      <td>Capacidad específica que permite ejecutar tareas o funciones determinadas.</td>
-    </tr>
-    <tr>
-      <td>Angelica N</td>
-      <td>es un sistema de software impulsado por inteligencia artificial que puede actuar de forma autónoma</td>
-      <td>red de agentes autónomos que colaboran entre sí para resolver problemas complejos</td>
-      <td>máquina o software impulsado por Inteligencia Artificial</td>
-      <td>agente o robot inteligente diseñado para automatizar tareas, aprender de su entorno</td>
-      <td>programa informático diseñado para imitar a un ser humano con fines engañosos</td>
-      <td>para almacenar, versionar y compartir modelos de Machine Learning</td>
-      <td>plataforma en la nube donde los desarrolladores almacenan su código</td>
-      <td>Funciona como una red social combinada con un disco duro inteligente</td>
-      <td>Interfaz y Nivel de Autonomía</td>
-      <td>plataforma de código abierto diseñada para la gestión de archivos, intercambio de datos y trabajo en equipo</td>
-      <td>---</td>
-      <td>---</td>
-      <td>---</td>
-      <td>---</td>
-    </tr>
-    <tr>
-      <td>Rodrigo Francesconi</td>
-      <td>programa de IA que percibe, decide y actúa.</td>
-      <td>varios agentes especializados que colaboran para resolver algo.</td>
-      <td>automatizar flujos complejos en paralelo, sin humanos.</td>
-      <td>plataforma para construir y desplegar agentes internos.</td>
-      <td>humano disfrazado de bot para simular automatización.</td>
-      <td>guardar código con historial de cambios colaborativo.</td>
-      <td>plataforma en la nube que aloja repositorios de código.</td>
-      <td>clone → edita → commit → push → pull request.</td>
-      <td>IA de Anthropic, general, conversacional, basada en la nube.</td>
-      <td>infraestructura abierta para correr servicios en múltiples nubes.</td>
-      <td>instancia local donde corres un modelo de IA privadamente.</td>
-      <td>agentes que anticipan necesidades antes de que ocurran.</td>
-      <td>el agente entrena advisors 24/7 sin instructor humano.</td>
-      <td>Capacidad específica que le enseñas a un agente para ejecutar.</td>
-    </tr>
-    <tr>
-      <td>Liliana Rojas</td>
-      <td>Es una IA que puede hacer una tarea específica siguiendo instrucciones.</td>
-      <td>Es un grupo de varios agentes de IA que trabajan juntos.</td>
-      <td>Sirve para dividir tareas grandes en partes más pequeñas y hacerlas más rápido.</td>
-      <td>Es una herramienta o agente que ayuda a ejecutar tareas, especialmente técnicas o de programación.</td>
-      <td>Es un bot simulado que parece conversar, pero no necesariamente usa IA real.</td>
-      <td>Sirve para guardar y organizar los archivos de un proyecto.</td>
-      <td>Es una plataforma para guardar, compartir y trabajar proyectos en la nube.</td>
-      <td>Funciona con repositorios donde se suben archivos y se guardan los cambios.</td>
-      <td>Claude conversa, explica y crea contenido. Droid ejecuta tareas o automatizaciones.</td>
-      <td>Es una nube abierta para guardar, conectar o usar herramientas por internet.</td>
-      <td>Es el momento en que usas un modelo de IA en tu computador con Ollama.</td>
-      <td>---</td>
-      <td>---</td>
-      <td>---</td>
-    </tr>
-  </tbody>
-</table>
-        </div>
 
-        <footer>
-            &copy; 2026 Nubia Esperanza Chaparro Cely. Alojado en GitHub Pages.
-        </footer>
+<header>
+    <h1>Glosario de Tecnología e IA</h1>
+    <div class="subtitle">Desarrollado por Nubia Esperanza Chaparro Cely</div>
+    <div class="contact-info">
+        <a href="mailto:nubiachaparro1@gmail.com"><i class="fas fa-envelope"></i> nubiachaparro1@gmail.com</a>
+        <a href="https://www.linkedin.com/in/nubia-chaparro" target="_blank"><i class="fab fa-linkedin"></i> Perfil de LinkedIn</a>
     </div>
+</header>
+
+<div class="search-container">
+    <div class="search-box">
+        <input type="text" id="searchInput" onkeyup="searchTerms()" placeholder="Buscar un concepto, término o autor...">
+        <div class="search-icon"><i class="fas fa-search"></i></div>
+    </div>
+</div>
+
+<div class="container" id="cardsContainer">
+    <div id="noResults">
+        <i class="fas fa-search-minus" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 1rem; display: block;"></i>
+        No se encontraron resultados para tu búsqueda.
+    </div>
+    <div class="card" data-search="que es un agente antonio alguien o algo que toma acción para cumplir una meta.">
+        <h2 class="card-title"><i class="fas fa-robot"></i> Que es un agente?</h2>
+        <div class="definitions-wrapper">
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> ANTONIO</div>
+                <div class="text">Alguien o algo que toma acción para cumplir una meta.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Edinson</div>
+                <div class="text">un interpretador de ordenes para generar acciones generando soluciones</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Nubia</div>
+                <div class="text">Entidad que percibe su entorno y actúa para cumplir metas</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juliana</div>
+                <div class="text">Entidad que percibe, decide y actúa para lograr objetivos específicos.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> JohnR</div>
+                <div class="text">Entidad que automatiza tareas por ti</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> nicolas Tellez</div>
+                <div class="text">Un agente ejecuta tareas autónomas percibiendo entorno, decidiendo acciones independientemente.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Danghelly Rodriguez</div>
+                <div class="text">Sistema autónomo que percibe, decide y actúa para cumplir objetivos.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juan Robayo</div>
+                <div class="text">Entidad que percibe su entorno y actúa para cumplir objetivos</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Katherine Alfonso</div>
+                <div class="text">Entidad autónoma que procesa datos, toma decisiones y ejecuta acciones.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Kelly</div>
+                <div class="text">Sistema de IA que percibe, decide y actúa autónomamente.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> John Ocampo</div>
+                <div class="text">IA automatico con un objetivo particular ejecutando tareas de entorno</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Jaime</div>
+                <div class="text">Un desarrollo capaz de automatizar datos, procesarlos y tomar decisiones</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> leonardo Martinez</div>
+                <div class="text">Un agente percibe su entorno, decide y ejecuta acciones autónomamente.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Claudia Laitón</div>
+                <div class="text">Sistema autónomo diseñado para ejecutar tareas, tomar decisiones, resolver problemas.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Gloria</div>
+                <div class="text">Entidad que actúa de forma autónoma para lograr un objetivo.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Natalia</div>
+                <div class="text">Sistema de IA que ejecuta procesos de forma autónoma</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Katterin Botiva</div>
+                <div class="text">Sistema autónomo que percibe, decide y actúa para lograr objetivos.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Samantha</div>
+                <div class="text">Es una Entidad que a medida que resuelve aprende</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Johana</div>
+                <div class="text">Un software autónomo que realiza tareas y toma decisiones por mí</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Lina Espinosa</div>
+                <div class="text">Es un sistema de inteligencia artificial que no solo responde preguntas, sino que también puede tomar decisiones, planificar acciones y ejecutar tareas para alcanzar un objetivo</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> María</div>
+                <div class="text">Software que percibe su entorno y actúa para lograr objetivos</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Augusto B</div>
+                <div class="text">entidad que puede percibir su entorno, tomar decisiones y actuar para lograr un objetivo</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Joaquin C</div>
+                <div class="text">Entidad autónoma que percibe su entorno y actúa tomando decisiones.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Paola A</div>
+                <div class="text">Es un programa que ejecuta tareas autonomas con instrucciones</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Harold Arenas</div>
+                <div class="text">Es un programa que funciona de manera autonoma para cumplir tareas especificas</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Alejandro M</div>
+                <div class="text">Programa autónomo que percibe entorno decide acciones y ejecuta tareas</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Angelica N</div>
+                <div class="text">es un sistema de software impulsado por inteligencia artificial que puede actuar de forma autónoma</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Rodrigo Francesconi</div>
+                <div class="text">programa de IA que percibe, decide y actúa.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Liliana Rojas</div>
+                <div class="text">Es una IA que puede hacer una tarea específica siguiendo instrucciones.</div>
+            </div>
+        </div>
+    </div>
+    <div class="card" data-search="ques un multiagente antonio un equipo de varios agentes trabajando juntos por una meta.">
+        <h2 class="card-title"><i class="fas fa-microchip"></i> Ques un multiagente?</h2>
+        <div class="definitions-wrapper">
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> ANTONIO</div>
+                <div class="text">Un equipo de varios agentes trabajando juntos por una meta.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Edinson</div>
+                <div class="text">varios interpretadores</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Nubia</div>
+                <div class="text">Sistema de múltiples agentes autónomos interactuando para lograr objetivos comunes</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juliana</div>
+                <div class="text">Conjunto de agentes que colaboran, coordinan y resuelven tareas conjuntamente.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> JohnR</div>
+                <div class="text">Grupo de agentes  gestionando proyectos</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> nicolas Tellez</div>
+                <div class="text">Un multiagente integra múltiples agentes colaborando coordinadamente resolviendo problemas complejos</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Danghelly Rodriguez</div>
+                <div class="text">Conjunto de agentes coordinados que colaboran para resolver tareas complejas</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juan Robayo</div>
+                <div class="text">Sistema de múltiples agentes artificiales que interactúan para cumplir objetivos.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Katherine Alfonso</div>
+                <div class="text">Conjunto de agentes autónomos colaborando para resolver una tarea compleja.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Kelly</div>
+                <div class="text">Red de agentes de IA que colaboran entre sí.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> John Ocampo</div>
+                <div class="text">Sistema de multiples agentes con diferentes objetivos y ejecuciones diferenters</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Jaime</div>
+                <div class="text">Son desarrollos simultáneos que trabajan juntos para resolver un problema</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> leonardo Martinez</div>
+                <div class="text">Varios agentes autónomos colaboran, se comunican y resuelven problemas junto</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Claudia Laitón</div>
+                <div class="text">Conjunto de agentes que colaboran coordinadamente para resolver problemas complejos.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Gloria</div>
+                <div class="text">Conjunto de agentes autónomos que colaboran para lograr un objetivo.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Natalia</div>
+                <div class="text">Conjunto de agentes que colaboran para ejecutar una tarea</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Katterin Botiva</div>
+                <div class="text">Conjunto de agentes coordinados que colaboran resolviendo tareas complejas eficientemente.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Samantha</div>
+                <div class="text">Muchos agentes independientes que apoyan mis actividades</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Johana</div>
+                <div class="text">Sistema de múltiples agentes autónomos que colaboran para resolver problemas</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Lina Espinosa</div>
+                <div class="text">Es un conjunto de varios agentes de inteligencia artificial que trabajan juntos, colaboran o se reparten tareas para resolver un problema más complejo</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> María</div>
+                <div class="text">Múltiples agentes colaborando para resolver problemas más complejos juntos</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Augusto B</div>
+                <div class="text">s un conjunto de varios agentes que trabajan de forma coordinada para resolver una tarea o alcanzar un objetivo común.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Joaquin C</div>
+                <div class="text">Sistema formado por múltiples agentes que interactúan para resolver problemas.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Paola A</div>
+                <div class="text">varios programas que ejecutan tareas al tiempo</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Harold Arenas</div>
+                <div class="text">Es un sistema compuesto por varios agentes que interactuan entre si</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Alejandro M</div>
+                <div class="text">Sistema compuesto por varios agentes que colaboran resolviendo problemas complejos.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Angelica N</div>
+                <div class="text">red de agentes autónomos que colaboran entre sí para resolver problemas complejos</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Rodrigo Francesconi</div>
+                <div class="text">varios agentes especializados que colaboran para resolver algo.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Liliana Rojas</div>
+                <div class="text">Es un grupo de varios agentes de IA que trabajan juntos.</div>
+            </div>
+        </div>
+    </div>
+    <div class="card" data-search="para que sirve un multiagente antonio sirve para resolver problemas muy complejos uniendo varias inteligencias artificiales.">
+        <h2 class="card-title"><i class="fas fa-cloud"></i> Para que sirve un multiagente?</h2>
+        <div class="definitions-wrapper">
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> ANTONIO</div>
+                <div class="text">Sirve para resolver problemas muy complejos uniendo varias inteligencias artificiales.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Edinson</div>
+                <div class="text">resuelven preguntas, conjeturas desarrollando sobre estas soluciones</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Nubia</div>
+                <div class="text">Sirve para resolver problemas complejos dividiendo tareas entre agentes colaborativos</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juliana</div>
+                <div class="text">Sirve para dividir, coordinar y resolver tareas complejas eficientemente.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> JohnR</div>
+                <div class="text">Gestionar proyectos en donde se requiere mas de un ounto de vista</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> nicolas Tellez</div>
+                <div class="text">multiagente optimiza procesos distribuidos mediante cooperación, comunicación y especialización autónoma</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Danghelly Rodriguez</div>
+                <div class="text">multiagente optimiza procesos distribuidos mediante cooperación, comunicación y especialización autónoma</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juan Robayo</div>
+                <div class="text">Sirve para resolver problemas complejos distribuyendo tareas entre varios agentes.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Katherine Alfonso</div>
+                <div class="text">Divide tareas complejas en especialistas autónomos que colaboran entre sí.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Kelly</div>
+                <div class="text">Resolver tareas complejas dividiendo trabajo entre agentes especializados.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> John Ocampo</div>
+                <div class="text">para delegar diferentes tareas en ejecuciones concretas y displinas varias</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Jaime</div>
+                <div class="text">Para procesar una gran cantidad de datos en cadena</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> leonardo Martinez</div>
+                <div class="text">Sirve para dividir tareas complejas entre agentes especializados que colaboran.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Claudia Laitón</div>
+                <div class="text">Facilita resolver problemas complejos mediante la cooperación entre agentes especializados.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Gloria</div>
+                <div class="text">Para resolver problemas complejos mediante la colaboración de múltiples agentes.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Natalia</div>
+                <div class="text">Divide tareas complejas en agentes especializados</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Samantha</div>
+                <div class="text">Para Apoyar en mis tareas y resolver problems por partes</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Johana</div>
+                <div class="text">Para resolver problemas complejos dividiendo tareas entre varios agentes especializados</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Lina Espinosa</div>
+                <div class="text">En lugar de automatizar una tarea aislada, puede automatizar un proceso de principio a fin</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> María</div>
+                <div class="text">Dividir tareas grandes entre varios agentes especializados simultáneamente</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Augusto B</div>
+                <div class="text">para resolver problemas complejos de forma más eficiente, distribuyendo el trabajo entre varios agentes especializados</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Joaquin C</div>
+                <div class="text">Distribuye tareas complejas entre varios agentes para resolver problemas eficientemente.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Paola A</div>
+                <div class="text">optimizar tiempo</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Harold Arenas</div>
+                <div class="text">Para resolver problemas complejos mediante interacción y colaboración de multiples agentes</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Alejandro M</div>
+                <div class="text">Permite coordinar agentes especializados para resolver tareas más eficientemente juntas.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Angelica N</div>
+                <div class="text">máquina o software impulsado por Inteligencia Artificial</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Rodrigo Francesconi</div>
+                <div class="text">automatizar flujos complejos en paralelo, sin humanos.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Liliana Rojas</div>
+                <div class="text">Sirve para dividir tareas grandes en partes más pequeñas y hacerlas más rápido.</div>
+            </div>
+        </div>
+    </div>
+    <div class="card" data-search="que es droid antonio un robot físico e inteligente que actúa como un agente.">
+        <h2 class="card-title"><i class="fas fa-network-wired"></i> Que es droid?</h2>
+        <div class="definitions-wrapper">
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> ANTONIO</div>
+                <div class="text">Un robot físico e inteligente que actúa como un agente.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Edinson</div>
+                <div class="text">un conjunto de algoritmos que generan una entidad desconocidad que se apoya de varios agentes para desarrollar y solucionar un proyecto</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Nubia</div>
+                <div class="text">Robot o máquina inteligente diseñada para operar de forma autónoma</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juliana</div>
+                <div class="text">Robot automatizado diseñado para asistir tareas físicas o digitales específicas.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> JohnR</div>
+                <div class="text">IA integradora</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> nicolas Tellez</div>
+                <div class="text">Un sistema operativo móvil desarrollado por Google para dispositivos inteligentes</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Danghelly Rodriguez</div>
+                <div class="text">Robot o asistente automatizado diseñado para ejecutar tareas específicas programadas.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juan Robayo</div>
+                <div class="text">Robot o autómata que simula apariencia y comportamiento de humanos.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Katherine Alfonso</div>
+                <div class="text">Asistente local autónomo que automatiza tareas y código mediante IA.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Kelly</div>
+                <div class="text">Agente de codificación empresarial que gestiona flujos de desarrollo completos</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> John Ocampo</div>
+                <div class="text">Asistente autonomo que permite  ejecucion de tareas complejas con IA</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Jaime</div>
+                <div class="text">Un robot autonomo entrenado para hacer tareas</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> leonardo Martinez</div>
+                <div class="text">agente inteligente diseñado para ejecutar tareas automáticamente y asistir usuarios.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Claudia Laitón</div>
+                <div class="text">Plataforma tecnológica diseñada para facilitar la creación de agentes autónomos</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Gloria</div>
+                <div class="text">Robot con inteligencia artificial que realiza tareas de forma autónoma.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Natalia</div>
+                <div class="text">Sistema que ejecuta tareas complejas</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Katterin Botiva</div>
+                <div class="text">Robot o asistente digital diseñado para ejecutar funciones específicas automáticamente.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Samantha</div>
+                <div class="text">Es un Agente que desarolla protocolos complejos</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Johana</div>
+                <div class="text">Sistema de agentes que gestiona y soluciona procesos muy complejos</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Lina Espinosa</div>
+                <div class="text">En tecnología moderna, algunas empresas usan el término “Droid” para referirse a agentes de IA capaces de ejecutar tareas de forma autónoma.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> María</div>
+                <div class="text">Framework para construir sistemas multiagente con IA fácilmente</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Augusto B</div>
+                <div class="text">un asistente virtual, un agente de IA, un robot software, o un sistema autónomo que ejecuta tareas</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Joaquin C</div>
+                <div class="text">Dispositivo robótico autónomo o sistema operativo móvil basado en Linux.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Paola A</div>
+                <div class="text">permite crear multiagentes</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Harold Arenas</div>
+                <div class="text">es un tipo de robot o agente autónomo diseñado para interactuar con su entorno, realizar tareas específicas</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Alejandro M</div>
+                <div class="text">Robot o software automatizado diseñado para asistir funciones específicas eficientemente</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Angelica N</div>
+                <div class="text">agente o robot inteligente diseñado para automatizar tareas, aprender de su entorno</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Rodrigo Francesconi</div>
+                <div class="text">plataforma para construir y desplegar agentes internos.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Liliana Rojas</div>
+                <div class="text">Es una herramienta o agente que ayuda a ejecutar tareas, especialmente técnicas o de programación.</div>
+            </div>
+        </div>
+    </div>
+    <div class="card" data-search="que es un fake bot, antonio un agente falso que engaña simulando ser una persona real.">
+        <h2 class="card-title"><i class="fas fa-code-branch"></i> Que es un fake bot,?</h2>
+        <div class="definitions-wrapper">
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> ANTONIO</div>
+                <div class="text">Un agente falso que engaña simulando ser una persona real.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Edinson</div>
+                <div class="text">un agente falso que tiene la capacidad de adoptar un tema y hablar fluidamente</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Nubia</div>
+                <div class="text">Programa informático diseñado para simular comportamiento humano con fines maliciosos</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juliana</div>
+                <div class="text">Bot que simula comportamiento humano o automatizado con identidad falsa.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> JohnR</div>
+                <div class="text">Bot falso enviar información errada</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> nicolas Tellez</div>
+                <div class="text">Un fake bot simula personas reales automáticamente para engañar usuarios.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Danghelly Rodriguez</div>
+                <div class="text">Bot falso que simula interacción humana para engañar o manipular</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juan Robayo</div>
+                <div class="text">Bot diseñado para engañar simulando ser un usuario humano real.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Katherine Alfonso</div>
+                <div class="text">Asistente local autónomo que automatiza tareas y código mediante IA.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Kelly</div>
+                <div class="text">Bot que imita humanos para generar actividad falsa artificialmente.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> John Ocampo</div>
+                <div class="text">Es un bot automata que se hace pasar por humano</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Jaime</div>
+                <div class="text">Un robot autonomo entrenado para hacer procesos alejados de la realidad</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> leonardo Martinez</div>
+                <div class="text">Un bot falso que simula ser humano para engañar usuarios.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Claudia Laitón</div>
+                <div class="text">Programa automatizado que suplanta personas para engañar o manipular usuarios</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Gloria</div>
+                <div class="text">Programa automatizado que simula ser un usuario humano o legítimo.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Natalia</div>
+                <div class="text">Bot que simula personas o actividades falsas</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Katterin Botiva</div>
+                <div class="text">Bot falso que simula usuarios para engañar o manipular personas.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Samantha</div>
+                <div class="text">Es un Bot autonomo que simula interactuar con personas</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Johana</div>
+                <div class="text">Software o cuenta falsa que simula interactuar como humano real</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Lina Espinosa</div>
+                <div class="text">Un fake bot (bot falso) es un programa automatizado que simula ser una persona real para interactuar con usuarios o sistemas.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> María</div>
+                <div class="text">Bot que simula ser humano para engañar usuarios</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Augusto B</div>
+                <div class="text">Dependiendo del propósito, puede utilizarse de forma legítima o maliciosa.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Joaquin C</div>
+                <div class="text">Cuenta automatizada falsa que simula ser un usuario humano</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Paola A</div>
+                <div class="text">programa informático diseñado para simular ser una persona real.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Harold Arenas</div>
+                <div class="text">es un programa automatizado que simula actividad humana o de otro bot con fines engañosos, fraudulentos o maliciosos</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Alejandro M</div>
+                <div class="text">Bot simulado que imita comportamientos humanos para pruebas internas controladas</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Angelica N</div>
+                <div class="text">programa informático diseñado para imitar a un ser humano con fines engañosos</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Rodrigo Francesconi</div>
+                <div class="text">humano disfrazado de bot para simular automatización.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Liliana Rojas</div>
+                <div class="text">Es un bot simulado que parece conversar, pero no necesariamente usa IA real.</div>
+            </div>
+        </div>
+    </div>
+    <div class="card" data-search="para que sirve crear un repositorio antonio guarda y organiza los archivos del equipo, registrando cada cambio.">
+        <h2 class="card-title"><i class="fas fa-database"></i> Para que sirve crear un repositorio?</h2>
+        <div class="definitions-wrapper">
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> ANTONIO</div>
+                <div class="text">Guarda y organiza los archivos del equipo, registrando cada cambio.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Edinson</div>
+                <div class="text">Plataforma para alojar código y colaborar en proyectos de software.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Nubia</div>
+                <div class="text">Almacenar, organizar, compartir y controlar versiones de código en equipo</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juliana</div>
+                <div class="text">Sirve para almacenar, organizar, versionar y compartir información digital.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> JohnR</div>
+                <div class="text">para almacenar modelos e información referente a un proyecto</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> nicolas Tellez</div>
+                <div class="text">Crear un repositorio sirve para organizar, almacenar y compartir proyectos.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Danghelly Rodriguez</div>
+                <div class="text">Sirve para almacenar, organizar y controlar versiones de archivos digitales</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juan Robayo</div>
+                <div class="text">Guarda, gestiona, protege y comparte versiones del código de proyectos.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Katherine Alfonso</div>
+                <div class="text">Almacena, organiza y rastrea el historial de cambios del código.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Kelly</div>
+                <div class="text">Almacenar, versionar y compartir código de forma organizada y colaborativa.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> John Ocampo</div>
+                <div class="text">Es la biblioteca en la nube que permite almacenar cambios</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Jaime</div>
+                <div class="text">Guardar información de manera organizada para ser consultada varios integrantes</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> leonardo Martinez</div>
+                <div class="text">Sirve para almacenar, versionar y colaborar en proyectos de código.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Claudia Laitón</div>
+                <div class="text">Almacena, organiza, versiona y facilita la colaboración en proyectos digitales.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Gloria</div>
+                <div class="text">Para almacenar, gestionar versiones de código y colaborar en equipo.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Natalia</div>
+                <div class="text">Para almacenar, organizar y versionar archivos</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Katterin Botiva</div>
+                <div class="text">Guardar, organizar, compartir y versionar código o proyectos colaborativos.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Samantha</div>
+                <div class="text">Para almacenar información y respaldar data, informes y codigo</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Johana</div>
+                <div class="text">Para almacenar, organizar y controlar versiones del historial de un proyecto</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Lina Espinosa</div>
+                <div class="text">1. Guardar el proyecto de forma segura:Permite tener todos los archivos en un único lugar y evitar pérdidas de información.
+
+2. Controlar versiones: Cada vez que realizas un cambio, el repositorio registra: Qué se modificó,Quién lo modificó, Cuándo se modificó.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> María</div>
+                <div class="text">Guardar, versionar y colaborar en código de forma organizada</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Augusto B</div>
+                <div class="text">Lugar centralizado donde se almacena y organiza información, código, documentos o archivos para que puedan ser gestionados y compartidos de manera controlada</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Joaquin C</div>
+                <div class="text">Almacenar, organizar y rastrear el historial de un proyecto digital.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Paola A</div>
+                <div class="text">Almacenar y organizar infomacion</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Harold Arenas</div>
+                <div class="text">un repositorio en inteligencia artificial sirve para organizar, versionar, compartir y colaborar en proyectos de IA de manera estructurada y eficiente.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Alejandro M</div>
+                <div class="text">Permite almacenar organizar versiones compartir código y documentación fácilmente colaborativamente.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Angelica N</div>
+                <div class="text">para almacenar, versionar y compartir modelos de Machine Learning</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Rodrigo Francesconi</div>
+                <div class="text">guardar código con historial de cambios colaborativo.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Liliana Rojas</div>
+                <div class="text">Sirve para guardar y organizar los archivos de un proyecto.</div>
+            </div>
+        </div>
+    </div>
+    <div class="card" data-search="que es github antonio plataforma web para guardar, organizar y crear código en equipo.">
+        <h2 class="card-title"><i class="fas fa-server"></i> Que es github?</h2>
+        <div class="definitions-wrapper">
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> ANTONIO</div>
+                <div class="text">Plataforma web para guardar, organizar y crear código en equipo.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Edinson</div>
+                <div class="text">Red social y de almacenamiento para desarrollar y compartir código.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Nubia</div>
+                <div class="text">Servicio web para control de versiones y desarrollo de software</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juliana</div>
+                <div class="text">Plataforma para alojar, gestionar y colaborar en proyectos de software.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> JohnR</div>
+                <div class="text">Plataforma  que funciona como repositorio</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> nicolas Tellez</div>
+                <div class="text">GitHub es plataforma colaborativa para almacenar, gestionar y compartir código.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Danghelly Rodriguez</div>
+                <div class="text">Plataforma donde equipos guardan código, colaboran y gestionan proyectos digitales.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juan Robayo</div>
+                <div class="text">Plataforma online para alojar, gestionar y colaborar en código fuente.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Katherine Alfonso</div>
+                <div class="text">Plataforma en la nube para alojar y compartir repositorios de código.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Kelly</div>
+                <div class="text">Plataforma en la nube para alojar y gestionar repositorios colaborativamente.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> John Ocampo</div>
+                <div class="text">repositorio muy utilizado  para contener cambiso de software en  nube</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Jaime</div>
+                <div class="text">plataforma para almacenar, gestionar y colaborar en proyectos de software</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> leonardo Martinez</div>
+                <div class="text">Plataforma en la nube para alojar y colaborar en repositorios</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Claudia Laitón</div>
+                <div class="text">Plataforma para alojar, gestionar y colaborar en proyectos de código.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Gloria</div>
+                <div class="text">GitHub es una plataforma para alojar, gestionar y compartir código.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Natalia</div>
+                <div class="text">Plataforma para almacenar, compartir y gestionar código</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Katterin Botiva</div>
+                <div class="text">Plataforma para alojar, gestionar y colaborar en repositorios Git.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Samantha</div>
+                <div class="text">Es un repositorio que guarda información creada</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Johana</div>
+                <div class="text">Plataforma web para almacenar, compartir y controlar versiones de código</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Lina Espinosa</div>
+                <div class="text">GitHub es una plataforma en línea que permite almacenar, administrar y colaborar en proyectos de software utilizando Git, una herramienta de control de versiones.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> María</div>
+                <div class="text">Plataforma para alojar repositorios y colaborar en código</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Augusto B</div>
+                <div class="text">una plataforma en línea que permite almacenar, gestionar y colaborar en proyectos utilizando Git, un sistema de control de versiones.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Joaquin C</div>
+                <div class="text">Plataforma en la nube para alojar y compartir código fuente</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Paola A</div>
+                <div class="text">plataforma en la nube donde los desarrolladores almacenan su código, gestionan proyectos y colaboran con otro</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Harold Arenas</div>
+                <div class="text">GitHub es plataforma web de control versiones y colaboración código fuente.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Alejandro M</div>
+                <div class="text">Plataforma colaborativa para alojar gestionar versiones y compartir código eficientemente.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Angelica N</div>
+                <div class="text">plataforma en la nube donde los desarrolladores almacenan su código</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Rodrigo Francesconi</div>
+                <div class="text">plataforma en la nube que aloja repositorios de código.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Liliana Rojas</div>
+                <div class="text">Es una plataforma para guardar, compartir y trabajar proyectos en la nube.</div>
+            </div>
+        </div>
+    </div>
+    <div class="card" data-search="como funciona antonio subes tu código, registras cada cambio y trabajas en equipo.">
+        <h2 class="card-title"><i class="fas fa-laptop-code"></i> Como funciona?</h2>
+        <div class="definitions-wrapper">
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> ANTONIO</div>
+                <div class="text">Subes tu código, registras cada cambio y trabajas en equipo.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Edinson</div>
+                <div class="text">Almacena archivos, registra cada cambio de código y facilita colaboración.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Nubia</div>
+                <div class="text">Usa Git para alojar código, registrar cambios y permitir colaboración</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juliana</div>
+                <div class="text">Almacena código, registra cambios y facilita colaboración entre desarrolladores.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> JohnR</div>
+                <div class="text">almacena información  facilitando la interracción de agentes</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> nicolas Tellez</div>
+                <div class="text">Funciona almacenando versiones del código, permitiendo colaboración, cambios y seguimiento.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Danghelly Rodriguez</div>
+                <div class="text">Funciona registrando cambios, sincronizando versiones y permitiendo colaboración controlada remota.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juan Robayo</div>
+                <div class="text">Guarda código, controla sus versiones y colabora con otros desarrolladores.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Katherine Alfonso</div>
+                <div class="text">Aloja código en la nube facilitando control de cambios colaborativo.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Kelly</div>
+                <div class="text">lmacena código, rastrea cambios y permite colaboración mediante ramas.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> John Ocampo</div>
+                <div class="text">Almacena codigo de software y permite trabajr  integrar diferentes ramas</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Jaime</div>
+                <div class="text">Varias personas pueden desarrollar el mismo proyecto simultáneamente sin sobrescribirse.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> leonardo Martinez</div>
+                <div class="text">Usa Git para versionar código; subes, colaboras y fusionas cambios.Dijiste: cual es la difrencia entre Claude y droid</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Claudia Laitón</div>
+                <div class="text">Git rastrea cambios, permitiendo guardar versiones y colaborar entre desarrolladores</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Gloria</div>
+                <div class="text">Rastrea versiones de código online facilitando el trabajo en equipo.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Natalia</div>
+                <div class="text">Guarda versiones, cambios y colaboración en proyectos</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Samantha</div>
+                <div class="text">Como una Nube que almacena información,data y codigo</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Johana</div>
+                <div class="text">Guarda cambios del código en historiales mediante ramas y repositorios</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Lina Espinosa</div>
+                <div class="text">Creas un repositorio (una carpeta del proyecto).
+Subes tus archivos.
+Cada vez que haces cambios, GitHub los registra.
+Puedes volver a versiones anteriores si algo sale mal.
+Varias personas pueden trabajar en el mismo proyecto sin perder información.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> María</div>
+                <div class="text">Subes tus archivos.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Augusto B</div>
+                <div class="text">Cada vez que haces cambios, GitHub los registra.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Joaquin C</div>
+                <div class="text">Puedes volver a versiones anteriores si algo sale mal.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Paola A</div>
+                <div class="text">Varias personas pueden trabajar en el mismo proyecto sin perder información.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Harold Arenas</div>
+                <div class="text">GitHub gestiona repositorios, versiones y colaboraciones de código eficientemente</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Alejandro M</div>
+                <div class="text">Utiliza repositorios Git para cambios colaboración seguimiento y despliegues eficientes.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Angelica N</div>
+                <div class="text">Funciona como una red social combinada con un disco duro inteligente</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Rodrigo Francesconi</div>
+                <div class="text">clone → edita → commit → push → pull request.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Liliana Rojas</div>
+                <div class="text">Funciona con repositorios donde se suben archivos y se guardan los cambios.</div>
+            </div>
+        </div>
+    </div>
+    <div class="card" data-search="cual es la difrencia entre claude y droid antonio claude es software y el droid es un robot físico.">
+        <h2 class="card-title"><i class="fas fa-brain"></i> Cual es la difrencia entre claude y droid?</h2>
+        <div class="definitions-wrapper">
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> ANTONIO</div>
+                <div class="text">Claude es software y el droid es un robot físico.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Edinson</div>
+                <div class="text">Claude es una inteligencia artificial; Droid es un sistema operativo.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Nubia</div>
+                <div class="text">Claude es inteligencia artificial; droid es un robot físico autónomo</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juliana</div>
+                <div class="text">Claude es inteligencia artificial conversacional; droid ejecuta tareas automatizadas específicas.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> JohnR</div>
+                <div class="text">Claude iA = Droid Herramienta almacenamiento</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> nicolas Tellez</div>
+                <div class="text">Claude utiliza inteligencia artificial conversacional; Droid funciona como sistema operativo.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Danghelly Rodriguez</div>
+                <div class="text">Claude es inteligencia conversacional; Droid es hardware o sistema operativo.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juan Robayo</div>
+                <div class="text">Claude es una inteligencia artificial; Droid es un robot físico.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Katherine Alfonso</div>
+                <div class="text">Claude es el cerebro que piensa; Droid opera tu terminal.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Kelly</div>
+                <div class="text">Claude es IA conversacional; Droid es agente especializado en código.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> John Ocampo</div>
+                <div class="text">Claude es generativa y conversacional droid es generadora de agentes</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Jaime</div>
+                <div class="text">Claude es un modelo de IA y droid un agente que usa IA</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> leonardo Martinez</div>
+                <div class="text">Claude es IA conversacional; DROID es framework para orquestar multiagentes.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Claudia Laitón</div>
+                <div class="text">Claude es un modelo lingüístico; Droid facilita crear agentes autónomos</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Gloria</div>
+                <div class="text">Claude es un software conversacional y Droid un robot físico.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Natalia</div>
+                <div class="text">Claude es modelo de IA conversacional; Droid es un agente/robot</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Katterin Botiva</div>
+                <div class="text">Claude es inteligencia artificial; Droid generalmente ejecuta tareas automatizadas.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Samantha</div>
+                <div class="text">Claude es una IA y Droid es un agente autonomo</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Johana</div>
+                <div class="text">La cantidad de agentes que se pueden manejar al tiempo</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Lina Espinosa</div>
+                <div class="text">Claude es un modelo/asistente de IA. Su función principal es conversar, analizar información, escribir, resumir, programar y ayudar a resolver problemas.
+Droid suele referirse a un agente de IA autónomo o un sistema que utiliza IA para ejecutar tareas específicas. Dependiendo de la plataforma, un droid puede usar modelos como Claude, GPT u otros para tomar decisiones y actuar.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> María</div>
+                <div class="text">Claude es IA conversacional; Droid construye sistemas multiagente autónomos</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Augusto B</div>
+                <div class="text">Claude es como un especialista experto al que le haces preguntas y te ayuda a razonar. Un droid es como un operador automatizado que realiza tareas concretas siguiendo instrucciones o reglas.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Joaquin C</div>
+                <div class="text">Claude es un software de IA; Droid es hardware robótico o sistema operativo móvil.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Paola A</div>
+                <div class="text">La diferencia radica en que Claude es un "cerebro" o modelo de IA creado para redactar y razonar, mientras que Droid (como herramienta CLI) es una interfaz técnica diseñada específicamente para que los desarrolladores automaticen la escritura o corrección de código informático a través de su terminal</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Alejandro M</div>
+                <div class="text">Claude genera contenido inteligente; Droid ejecuta tareas automatizadas especializadas eficientemente.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Angelica N</div>
+                <div class="text">Interfaz y Nivel de Autonomía</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Rodrigo Francesconi</div>
+                <div class="text">IA de Anthropic, general, conversacional, basada en la nube.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Liliana Rojas</div>
+                <div class="text">Claude conversa, explica y crea contenido. Droid ejecuta tareas o automatizaciones.</div>
+            </div>
+        </div>
+    </div>
+    <div class="card" data-search="que es open cloud antonio es la versión de código libre del programa llamado claude.">
+        <h2 class="card-title"><i class="fas fa-robot"></i> Que es open cloud?</h2>
+        <div class="definitions-wrapper">
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> ANTONIO</div>
+                <div class="text">Es la versión de código libre del programa llamado Claude.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Edinson</div>
+                <div class="text">Plataforma de código abierto para gestionar, almacenar y compartir archivos.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Nubia</div>
+                <div class="text">Plataforma de computación en la nube basada en código abierto</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juliana</div>
+                <div class="text">Plataforma en la nube para desarrollar, ejecutar y escalar aplicaciones.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> JohnR</div>
+                <div class="text">otra plataforma de repositorio</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> nicolas Tellez</div>
+                <div class="text">Open Cloud ofrece servicios remotos mediante almacenamiento, procesamiento y conectividad.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Danghelly Rodriguez</div>
+                <div class="text">Infraestructura de nube basada en estándares abiertos para evitar bloqueos.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juan Robayo</div>
+                <div class="text">Computación en la nube basada en tecnologías de código abierto.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Katherine Alfonso</div>
+                <div class="text">Nube basada en código abierto que permite portabilidad e interoperabilidad.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Kelly</div>
+                <div class="text">Plataforma de servicios cloud que ofrece cómputo, almacenamiento y networking escalable.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> John Ocampo</div>
+                <div class="text">Es una plataforma que permita la generacion de codigo abierto</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Jaime</div>
+                <div class="text">Es Nube abierta, basada en estándares abiertos, software open source</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> leonardo Martinez</div>
+                <div class="text">plataforma abierta para almacenar, procesar y gestionar datos</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Claudia Laitón</div>
+                <div class="text">Infraestructura de nube basada en tecnologías de código abierto accesibles</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Gloria</div>
+                <div class="text">Nube construida con código abierto para garantizar flexibilidad e interoperabilidad.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Natalia</div>
+                <div class="text">Infraestructura en la nube abierta, interoperable y de código libre</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Samantha</div>
+                <div class="text">Es un Entorno de programación Construido sobre Codigo Abierto</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Johana</div>
+                <div class="text">Plataforma de nube basada en tecnologías abiertas que evita bloqueos comerciales</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Lina Espinosa</div>
+                <div class="text">Open Cloud (nube abierta) es un modelo de computación en la nube que permite usar servicios, aplicaciones y datos con mayor libertad, evitando depender completamente de un único proveedor.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> María</div>
+                <div class="text">Plataforma cloud abierta para desplegar servicios escalables fácilmente</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Augusto B</div>
+                <div class="text">Concepto de tecnología que se refiere a una infraestructura en la nube abierta, interoperable y flexible, donde los usuarios pueden mover aplicaciones y datos entre diferentes proveedores sin quedar atrapados en uno solo</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Joaquin C</div>
+                <div class="text">Entorno de nube basado en estándares abiertos que evita bloqueos de proveedores.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Paola A</div>
+                <div class="text">Plataforma de colaboración y almacenamiento</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Alejandro M</div>
+                <div class="text">Plataforma abierta para gestionar recursos, servicios y datos en nube.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Angelica N</div>
+                <div class="text">plataforma de código abierto diseñada para la gestión de archivos, intercambio de datos y trabajo en equipo</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Rodrigo Francesconi</div>
+                <div class="text">infraestructura abierta para correr servicios en múltiples nubes.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Liliana Rojas</div>
+                <div class="text">Es una nube abierta para guardar, conectar o usar herramientas por internet.</div>
+            </div>
+        </div>
+    </div>
+    <div class="card" data-search="que es una secion de uso en ollama antonio es tu conversación activa donde el modelo recuerda la charla.">
+        <h2 class="card-title"><i class="fas fa-microchip"></i> Que es una secion de uso en ollama?</h2>
+        <div class="definitions-wrapper">
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> ANTONIO</div>
+                <div class="text">Es tu conversación activa donde el modelo recuerda la charla.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Edinson</div>
+                <div class="text">Es el espacio interactivo donde un modelo procesa tus peticiones.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Nubia</div>
+                <div class="text">Interacción continua donde el modelo local recuerda el contexto previo</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juliana</div>
+                <div class="text">Interacción temporal donde Ollama procesa solicitudes y mantiene contexto conversacional.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> JohnR</div>
+                <div class="text">medición de consumo actual de uso de ollama</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> nicolas Tellez</div>
+                <div class="text">Una sesión de uso en Ollama ejecuta modelos localmente consultados.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Danghelly Rodriguez</div>
+                <div class="text">Interacción donde ejecutas modelos locales para generar respuestas o análisis.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juan Robayo</div>
+                <div class="text">Período activo donde Ollama recuerda el contexto de tu chat.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Katherine Alfonso</div>
+                <div class="text">Tiempo que un modelo permanece cargado en memoria para responder.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Kelly</div>
+                <div class="text">eríodo activo donde el modelo procesa consultas localmente sin internet.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> John Ocampo</div>
+                <div class="text">es una sesion abierta que permite almacenar la conversacion puntual</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Jaime</div>
+                <div class="text">modelos de inteligencia artificial de forma local, en tu propio computador o servidor</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> leonardo Martinez</div>
+                <div class="text">Sesión donde ejecutas y conversas con modelos de IA localmente.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Claudia Laitón</div>
+                <div class="text">Es el tiempo de ejecución activa donde Ollama procesa instrucciones.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Gloria</div>
+                <div class="text">Sección que muestra las métricas de rendimiento y tokens consumidos.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Natalia</div>
+                <div class="text">Interacción activa entre usuario y modelo ejecutado localmente</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Samantha</div>
+                <div class="text">Es el Periodo de tiempo que Permanece una ventana de conversación abierta</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Johana</div>
+                <div class="text">Tiempo que Ollama mantiene un modelo activo en memoria local</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Lina Espinosa</div>
+                <div class="text">En Ollama, una sesión de uso (session) es el período durante el cual interactúas con un modelo de IA y este mantiene el contexto de la conversación</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> María</div>
+                <div class="text">Interacción activa con un modelo de IA localmente en ejecución</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Augusto B</div>
+                <div class="text">sesión de uso es el contexto de interacción que mantiene un modelo mientras conversas con él.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Joaquin C</div>
+                <div class="text">Período activo donde interactúas con un modelo consumiendo recursos locales.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Paola A</div>
+                <div class="text">licencia o cesión de uso.significa que te permiten descargarlo, ejecutarlo e incluso integrarlo en tus proyectos, pero sin transferirte la propiedad intelectual ni los derechos de autor</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Alejandro M</div>
+                <div class="text">Interacción temporal donde modelo procesa consultas y genera respuestas continuamente.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Rodrigo Francesconi</div>
+                <div class="text">instancia local donde corres un modelo de IA privadamente.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Liliana Rojas</div>
+                <div class="text">Es el momento en que usas un modelo de IA en tu computador con Ollama.</div>
+            </div>
+        </div>
+    </div>
+    <div class="card" data-search="que es un sistema predictivo de agentes antonio agentes actúan sin anticipar resultados; predictivo usa datos y modelos.">
+        <h2 class="card-title"><i class="fas fa-cloud"></i> Que es un sistema predictivo de agentes?</h2>
+        <div class="definitions-wrapper">
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> ANTONIO</div>
+                <div class="text">agentes actúan sin anticipar resultados; predictivo usa datos y modelos.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Edinson</div>
+                <div class="text">Un sistema predictivo de agentes anticipa decisiones y comportamientos mediante datos.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Nubia</div>
+                <div class="text">Sistema de agentes que utiliza datos para anticipar eventos futuros</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juliana</div>
+                <div class="text">Sistema que anticipa acciones mediante análisis y coordinación de agentes.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> nicolas Tellez</div>
+                <div class="text">Un sistema predictivo de agentes anticipa decisiones mediante datos patrones.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Danghelly Rodriguez</div>
+                <div class="text">Agentes inteligentes anticipan escenarios y recomiendan acciones basadas en datos.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juan Robayo</div>
+                <div class="text">Sistemas con IA que anticipan eventos para tomar decisiones autónomas.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Katherine Alfonso</div>
+                <div class="text">Agentes coordinados que analizan datos históricos para anticipar eventos futuros.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Kelly</div>
+                <div class="text">Agentes que analizan datos para predecir y automatizar decisiones futuras.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> John Ocampo</div>
+                <div class="text">Es un agente que predice las acciones relacionadas en conversacion</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> leonardo Martinez</div>
+                <div class="text">Sistema donde agentes anticipan eventos futuros para tomar decisiones proactivas.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Claudia Laitón</div>
+                <div class="text">Sistema que utiliza datos históricos para anticipar comportamientos de agentes.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Gloria</div>
+                <div class="text">Sistema de agentes autónomos que anticipan eventos futuros para decidir.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Natalia</div>
+                <div class="text">Agentes que anticipan eventos usando datos y patrones</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Samantha</div>
+                <div class="text">Son varios agentes que predicen evento que van a pasar</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Johana</div>
+                <div class="text">Red de agentes autónomos que colaboran para anticipar eventos futuros</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Lina Espinosa</div>
+                <div class="text">Un sistema predictivo de agentes es una solución que combina:
+
+Modelos predictivos (para anticipar lo que probablemente ocurrirá) y
+Agentes de IA (para analizar, decidir y actuar sobre esas predicciones).</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> María</div>
+                <div class="text">Sistema donde agentes aprenden y anticipan comportamientos futuros automáticamente</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Augusto B</div>
+                <div class="text">una arquitectura donde uno o varios agentes de IA analizan datos históricos y actuales para anticipar eventos, comportamientos o resultados futuros, y en algunos casos actuar en consecuencia</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Joaquin C</div>
+                <div class="text">Red de agentes que anticipa tendencias y comportamientos futuros analizando datos.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Paola A</div>
+                <div class="text">aplicación de inteligencia artificial capaz de anticipar comportamientos, necesidades o riesgos mediante el análisis de datos históricos y en tiempo real</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Alejandro M</div>
+                <div class="text">Conjunto agentes analizan datos anticipan eventos y recomiendan acciones.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Rodrigo Francesconi</div>
+                <div class="text">agentes que anticipan necesidades antes de que ocurran.</div>
+            </div>
+        </div>
+    </div>
+    <div class="card" data-search="apra que sirve hacer capacitaciones con un agente antonio agentes actúan sin anticipar resultados; predictivo usa datos y modelos.">
+        <h2 class="card-title"><i class="fas fa-network-wired"></i> Apra que sirve hacer capacitaciones con un agente?</h2>
+        <div class="definitions-wrapper">
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> ANTONIO</div>
+                <div class="text">agentes actúan sin anticipar resultados; predictivo usa datos y modelos.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Edinson</div>
+                <div class="text">Capacitar con un agente mejora habilidades, automatiza aprendizaje y acelera resultados.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Nubia</div>
+                <div class="text">Permite simular situaciones reales para practicar habilidades sin asumir riesgos</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juliana</div>
+                <div class="text">Sirve para enseñar, practicar y evaluar conocimientos de forma personalizada.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> nicolas Tellez</div>
+                <div class="text">Hacer capacitaciones con agentes mejora habilidades, automatización y productividad empresarial.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Danghelly Rodriguez</div>
+                <div class="text">Sirve para entrenar personas, resolver dudas y estandarizar aprendizaje rápidamente</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juan Robayo</div>
+                <div class="text">Enseña al agente a resolver tareas específicas con mayor precisión.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Katherine Alfonso</div>
+                <div class="text">Entrena personal simulando escenarios reales de forma personalizada y escalable.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Kelly</div>
+                <div class="text">Entrena equipos con respuestas inteligentes, personalizadas y disponibles las 24 horas.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> John Ocampo</div>
+                <div class="text">reducir el contexto en  sesion  y sea un experto objetivo</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Claudia Laitón</div>
+                <div class="text">Optimiza el aprendizaje personalizado, ofreciendo retroalimentación inmediata y continua supervisión.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Natalia</div>
+                <div class="text">Entrenar, practicar y recibir retroalimentación personalizada</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Samantha</div>
+                <div class="text">Para Capacitar a los agentes en informacion en particular que quiero que se enfoque</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Johana</div>
+                <div class="text">Para entrenar personal mediante simulaciones realistas, interactivas y escalables</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Lina Espinosa</div>
+                <div class="text">Hacer capacitaciones con un agente de IA sirve para entrenar personas de manera más personalizada, disponible y escalable que una capacitación tradicional.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> María</div>
+                <div class="text">Entrenar agentes con datos reales para mejorar respuestas futuras</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Augusto B</div>
+                <div class="text">para ofrecer aprendizaje más personalizado, interactivo y disponible en cualquier momento.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Joaquin C</div>
+                <div class="text">Entrena al personal mediante simulaciones interactivas y personalizadas en tiempo real.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Paola A</div>
+                <div class="text">Mayor eficacia y Especialización</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Alejandro M</div>
+                <div class="text">Permite entrenar personas mediante simulaciones personalizadas retroalimentación inmediata continua</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Rodrigo Francesconi</div>
+                <div class="text">el agente entrena advisors 24/7 sin instructor humano.</div>
+            </div>
+        </div>
+    </div>
+    <div class="card" data-search="que es un skills antonio habilidades especializadas para ejecutar tareas concretas.">
+        <h2 class="card-title"><i class="fas fa-code-branch"></i> Que es un skills?</h2>
+        <div class="definitions-wrapper">
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> ANTONIO</div>
+                <div class="text">habilidades especializadas para ejecutar tareas concretas.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Nubia</div>
+                <div class="text">Habilidades o destrezas adquiridas para realizar tareas de manera efectiva</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juliana</div>
+                <div class="text">Capacidades específicas que permiten realizar tareas y resolver problemas.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> nicolas Tellez</div>
+                <div class="text">Un skills representa habilidades específicas programadas para ejecutar tareas determinadas.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Danghelly Rodriguez</div>
+                <div class="text">Capacidades específicas que permiten a un agente ejecutar tareas concretas</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Juan Robayo</div>
+                <div class="text">Habilidad entrenada de una inteligencia artificial para ejecutar tareas específicas.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Katherine Alfonso</div>
+                <div class="text">Capacidad o herramienta que permite a un agente ejecutar acciones.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Kelly</div>
+                <div class="text">Habilidad específica que permite a un agente ejecutar tareas concretas.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> John Ocampo</div>
+                <div class="text">Es la capacidad de las  instrucciones concretas a la IA</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Claudia Laitón</div>
+                <div class="text">Capacidad técnica o habilidad específica que un agente puede ejecutar.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Natalia</div>
+                <div class="text">Habilidad o función específica que puede ejecutar.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Samantha</div>
+                <div class="text">Capacidades especificas que se requieren para resovler ciertas tareas</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Johana</div>
+                <div class="text">Capacidad o herramienta externa que permite al modelo realizar acciones</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Lina Espinosa</div>
+                <div class="text">Una habilidad que tiene una persona</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> María</div>
+                <div class="text">Habilidad específica que un agente ejecuta para resolver tareas</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Augusto B</div>
+                <div class="text">capacidad específica que tiene un sistema, agente o asistente para realizar una tarea determinada</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Joaquin C</div>
+                <div class="text">Capacidad específica que permite a una IA ejecutar acciones reales</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Paola A</div>
+                <div class="text">conjunto de instrucciones personalizadas y automatizadas que enseñan a una IA a realizar una tarea específica de manera autónoma</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Alejandro M</div>
+                <div class="text">Capacidad específica que permite ejecutar tareas o funciones determinadas.</div>
+            </div>
+            <div class="definition">
+                <div class="author"><i class="fas fa-user-circle"></i> Rodrigo Francesconi</div>
+                <div class="text">Capacidad específica que le enseñas a un agente para ejecutar.</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    &copy; 2026 - Nubia Esperanza Chaparro Cely. Todos los derechos reservados.
+</footer>
+
+<script>
+function searchTerms() {
+    let input = document.getElementById('searchInput').value.toLowerCase();
+    let cards = document.getElementsByClassName('card');
+    let noResults = document.getElementById('noResults');
+    let hasResults = false;
+
+    // Normalizar texto para quitar tildes
+    let normalize = (str) => {
+        return str.normalize("NFD").replace(/[̀-ͯ]/g, "");
+    }
+    
+    let normalizedInput = normalize(input);
+
+    for (let i = 0; i < cards.length; i++) {
+        let searchableText = cards[i].getAttribute('data-search');
+        let normalizedSearchableText = normalize(searchableText);
+        
+        if (normalizedSearchableText.includes(normalizedInput)) {
+            cards[i].style.display = "flex";
+            hasResults = true;
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
+
+    if (hasResults) {
+        noResults.style.display = "none";
+    } else {
+        noResults.style.display = "block";
+    }
+}
+</script>
+
 </body>
 </html>
